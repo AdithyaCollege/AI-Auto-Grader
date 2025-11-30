@@ -1,0 +1,12 @@
+# Ignore the Virtual Environment (Huge folder with libraries)
+statute_env/
+
+# Ignore Python cache files (Junk files generated when running code)
+__pycache__/
+*.pyc
+
+# Ignore environment variables (If you use API keys later)
+.env
+
+# Optional: Ignore the raw PDF if you don't want to upload it
+# data/raw_pdfs/*.pdf

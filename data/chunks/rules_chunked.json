@@ -1,0 +1,554 @@
+[
+    {
+        "id": 0,
+        "text": "Prompt Engineering\nOutline\n1. Fundamentals of Prompt Engineering\n2. Shot-Based Prompting-Zero-Shot, One-Shot, Few-Shot \n3. Reasoning-Based Prompting\n\u2022 Chain-of-Thought (CoT) Prompting \n\u2022 One-Shot CoT\n\u2022 Few-Shot CoT\n\u2022 Self-Consistency CoT\n\u2022 Tree of Thoughts (ToT) \n4. Interaction and Feedback-Based Prompting\n\u2022 ReAct Prompting (Reasoning + Acting)\n\u2022 Positive and Negative Prompting\n\u2022 Iterative Prompting\n\u2022 Model-Guided Prompting\n5. Instruction and Role-Based Prompting\n\u2022 Instruction Prompting"
+    },
+    {
+        "id": 1,
+        "text": "\u2022 Instruction Prompting\n\u2022 Role Prompting\n5. Knowledge-Augmented Prompting\n\u2022 Generated Knowledge Prompting (GKP)\nFundamentals of Prompt Engineering\nWhere are we?\n\u201cpre-train, prompt, and predict\u201d.\nIn Paradigm : \u201cpre-train, prompt, and predict\u201d. In this paradigm, instead of adapting\npre-trained LMs to downstream tasks via objective engineering, downstream tasks are \nreformulated to look more like those solved during the original LM training with the \nhelp of a textual prompt.."
+    },
+    {
+        "id": 2,
+        "text": "help of a textual prompt.. \nIn this way, by selecting the appropriate prompts we can manipulate the model behavior so \nthat the pre-trained LM itself can be used to predict the desired output, sometimes even \nwithout any additional task-specific training\nFor example, when recognizing the emotion of a social media post, \n\u201cI missed the bus today.\u201d, we may continue with a prompt \u201cI felt so \u201d, and\nask the LM to fill the blank with an emotion-bearing word.                           Or"
+    },
+    {
+        "id": 3,
+        "text": "if we choose the prompt \u201cEnglish: I missed the bus today. French: \u201d), an LM may be able to fill in the blank \nwith a French translation\nThe advantage of this method is that, given a suite of appropriate prompts, a single LM trained in an\nentirely unsupervised fashion can be used to solve a great number of tasks (Brown et al., 2020; Sun et al., \n2021).\nHowever, as with most conceptually enticing prospects, there is a catch \u2013 this method introduces the \nnecessity for"
+    },
+    {
+        "id": 4,
+        "text": "necessity for\nprompt engineering, finding the most appropriate prompt to allow a LM to solve the task at hand.\nWhat are prompts?\nsimple examples of \nprompts may be:\n\u2022\u201cWrite an email asking \nfor 3 days\u2019 leave from my \nmanager.\u201d\n\u2022\u201cCreate a line drawing \nof a koala riding a bike \non Mars.\u201d\nWhat is prompt Engineering?\nYou can achieve a lot with simple prompts, but the quality of results depends on how much \ninformation you provide it and how well-crafted the prompt is."
+    },
+    {
+        "id": 5,
+        "text": "A prompt can contain information like the instruction or question you are passing to the model \nand\ninclude other details such as context, inputs, or examples.\nYou can use these elements to instruct the model more effectively to improve the quality of \nresults.\nPrompt engineering is the practice of guiding large language model (LLM) outputs by providing the model ,context on \nthe type of information to generate."
+    },
+    {
+        "id": 6,
+        "text": "the type of information to generate. \nDepending on the LLM, prompts can take the form of text, images, or even audio. Embedding refers to the process of \nencoding any kind of information into numerical format by representing key features of the input as a numerical vector. \nThe LLM can then perform mathematical operations on these embeddings to generate a desired output. Once a user"
+    },
+    {
+        "id": 7,
+        "text": "inputs a prompt, it is embedded and then sent to the model, acting as an instruction set for how the model should \ngenerate its output.\nWhy?\nHow?\nFirst Basic Prompt\nElements of a Prompt\nguides the task\nbackground information      -\nspecific content to be processed\nhow the result should be presented\nDesigning Prompts for Different Tasks\nText Summarization\nQuestion Answering\nText Classification\nCode Generation\nReasoning\nIn-Context Learning (ICL)"
+    },
+    {
+        "id": 8,
+        "text": "Reasoning\nIn-Context Learning (ICL)\nAllows models to learn from examples within the prompt\u2014no extra training or fine-tuning needed.\nExamples guide the AI to understand the task and output styleby leveraging pattern recognition.\nUseful when instructions alone aren\u2019t enough, or when a specific format/style is required.\nExample-driven prompts help the model generalize to new, similar inputs.\nPrompt engineering \ntechniques in LLMs\nTypes of Prompting"
+    },
+    {
+        "id": 9,
+        "text": "techniques in LLMs\nTypes of Prompting\n1. Shot-Based Prompting-Zero-Shot, One-Shot, Few-Shot \n2. Reasoning-Based Prompting\n\u2022 Chain-of-Thought (CoT) Prompting \n\u2022 One-Shot CoT\n\u2022 Few-Shot CoT\n\u2022 Self-Consistency CoT\n\u2022 Tree of Thoughts (ToT) \n3. Instruction and Role-Based Prompting\n\u2022 Instruction Prompting\n\u2022 Role Prompting\n4. Interaction and Feedback-Based Prompting\n\u2022 ReAct Prompting (Reasoning + Acting)\n\u2022 Positive and Negative Prompting\n\u2022 Iterative Prompting\n\u2022 Model-Guided Prompting"
+    },
+    {
+        "id": 10,
+        "text": "\u2022 Iterative Prompting\n\u2022 Model-Guided Prompting\n1. Shot-Based Prompting\n\"Shots\" = number of examples in the \nprompt.\nZero-Shot Prompting\n\u2022 we give the model a direct instruction to perform a task \nwithout providing any examples or demonstrations. \n\u2022 This means the model has to rely entirely on its pre-trained \nknowledge to figure out how to complete the task\n\u2022 Multilingual Translation\n\u2022 Question Answering\n\u2022 Content Summarization\nExamples of zero-shot prompting in practice:\nAdvantages\nVersatility"
+    },
+    {
+        "id": 11,
+        "text": "Advantages\nVersatility\nEnables AI to handle a wide \nrange of tasks without task-\nspecific training.\nResource Efficiency\nReduces the need for large \nlabeled datasets, saving time \nand energy.\nRapid Deployment Allows faster development \nand execution for new tasks.\nGeneralization\nPerforms well even with \nlimited information or \nexamples.\nReduced Cost\nMinimizes the cost of model \ndevelopment due to lower \ndata and resource needs.\nCustomization\nPrompts can be tailored to"
+    },
+    {
+        "id": 12,
+        "text": "Customization\nPrompts can be tailored to \nspecific tasks for better task \nalignment.\nLimitations\nScalability Issues\nScaling to many tasks \nmay require more \nresources and significant \ntuning.\nComplex Domain \nKnowledge\nMay struggle with tasks \nrequiring deep, field-\nspecific expertise.\nLimited Control\nUsers have less influence \nover the model\u2019s \ninternal decision-making \nprocess.\n\u2022 Enhances zero-shot prompting by providing a single example before the new task, which helps clarify"
+    },
+    {
+        "id": 13,
+        "text": "expectations and improves model performance\nOne-shot Prompting\n\u2022 provides two or more examples, which helps the model recognize patterns and handle more complex \ntasks. With more examples, the model gains a better understanding of the task, leading to improved \naccuracy and consistency.\nFew-Shot Prompting\nFew shot\nAspect Zero-Shot Prompting One-Shot Prompting Few-Shot Prompting\nDefinition No example is provided in the \nprompt.\nOne example is included in \nthe prompt.\nTwo or more examples are"
+    },
+    {
+        "id": 14,
+        "text": "the prompt.\nTwo or more examples are \nprovided in the prompt.\nTraining Need No task-specific training or \nexamples needed.\nMinimal task guidance via \none example.\nMore detailed task \nguidance via multiple \nexamples.\nEase of Use Easiest to implement. Slightly more effort to \ninclude a relevant example.\nRequires careful selection \nof multiple representative \nexamples.\nModel \nUnderstanding\nRelies solely on pre-trained \nknowledge.\nGains some task-specific \nclarity from the example."
+    },
+    {
+        "id": 15,
+        "text": "clarity from the example.\nRecognizes patterns and \nstructure more clearly.\nPerformance May be less accurate, especially \nfor complex tasks.\nModerately improved \nperformance.\nGenerally better \nperformance with nuanced \ntasks.\nBest Use Case Simple or common tasks with \nclear instructions.\nTasks with a unique output \nstyle or structure.\nComplex tasks or those \nwith ambiguous \nrequirements.\nExample Complexity No examples: \"Translate to \nFrench: Good morning\"\nOne example: \"English: \nHello \u2192 French:"
+    },
+    {
+        "id": 16,
+        "text": "One example: \"English: \nHello \u2192 French: \nBonjour\\nTranslate: Hi\"\nMultiple examples of \ninputs and outputs in the \nprompt.\nHow to Choose the Right Prompting Technique\nZero-shot prompting: Use this when the task is simple, well-understood, or frequently \nencountered in the model's training data. It's efficient for tasks like basic arithmetic, general \nqueries, or sentiment classification for common phrases."
+    },
+    {
+        "id": 17,
+        "text": "One-shot prompting: This is helpful for tasks that need more specific guidance or when the \nmodel struggles with ambiguity. Providing a single example can clarify the task, improving \naccuracy in tasks like basic classification or structured information extraction.\nFew-shot prompting: Best used for complex tasks requiring multiple examples to establish \npatterns. This technique is ideal for tasks that involve varied inputs, require precise formatting,"
+    },
+    {
+        "id": 18,
+        "text": "or demand a higher degree of accuracy, such as generating structured outputs or handling \nnuanced classifications.\nTypes of Prompting\n1. Shot-Based Prompting-Zero-Shot, One-Shot, Few-Shot \n2. Reasoning-Based Prompting\n\u2022 Chain-of-Thought (CoT) Prompting \n\u2022 One-Shot CoT\n\u2022 Few-Shot CoT\n\u2022 Self-Consistency CoT\n\u2022 Tree of Thoughts (ToT) \n3. Interaction and Feedback-Based Prompting\n\u2022 ReAct Prompting (Reasoning + Acting)\n\u2022 Positive and Negative Prompting\n\u2022 Iterative Prompting\n\u2022 Model-Guided Prompting"
+    },
+    {
+        "id": 19,
+        "text": "\u2022 Iterative Prompting\n\u2022 Model-Guided Prompting\n4. Instruction and Role-Based Prompting\n\u2022 Instruction Prompting\n\u2022 Role Prompting\nReasoning-Based \nPrompting \u2022 designing prompts that help the \nmodel simulate logical reasoning or \nproblem-solving processes rather \nthan just providing a direct answer\n\u2022 Mimics human-like thinking patterns\n\u2022 Chain-of-Thought \n(CoT) Prompting \n\u2022 One-Shot CoT\n\u2022 Few-Shot CoT\n\u2022 Self-Consistency CoT\n\u2022 Tree of Thoughts (ToT)\nChain-of-Thought (CoT) Prompting"
+    },
+    {
+        "id": 20,
+        "text": "Chain-of-Thought (CoT) Prompting\ncomplex reasoning \ncapabilities through \nintermediate reasoning \nsteps.\n\u2022 Helps the model think systematically and build a solution strategy step \nby step.\n\u2022 Involves a series of linked questions or steps that guide reasoning \ntoward the answer.\n\u2022 Encourages the AI to break down complex tasks into smaller, logical \nparts.\nThought 1: - Try key A first. - If it works, done in 1 try. - If it doesn't, try"
+    },
+    {
+        "id": 21,
+        "text": "key B. - If it works, done in 2 tries. - If not, key C must be the correct one \n\u2192 3 tries. \nThought 2: - Try key B first. - If it works, done in 1 try. - If not, try A or C... \n[Continue reasoning through multiple strategies.]\nEvaluate: - In any sequence, worst case = 3 tries. - Best case = 1 try. - To \nbe sure the door opens \u2192 need up to 3 tries. Answer: **Minimum tries \nneeded to guarantee opening the door is 3.**\nProblem:"
+    },
+    {
+        "id": 22,
+        "text": "Problem:\n\"You have 3 keys. Only one opens a locked door. You can try them one at a time. \nWhat is the minimum number of tries needed to be sure you open the door?\"\nChain-of-thought\nChain-of-thought prompting is a technique designed to guide the AI model through a logical \nreasoning process. Rather than just asking for an output, this strategy incorporates a \"chain of \nthought\" that demonstrates how to arrive at the correct answer step by step. This approach is"
+    },
+    {
+        "id": 23,
+        "text": "especially valuable for tasks requiring critical thinking or problem-solving skills, like mathematical \ncalculations or complex queries.\nExample. Suppose you're in charge of optimizing fuel efficiency for a transportation company's fleet \nof trucks. You can employ chain-of-thought prompting to guide the model through this complex task \nas follows.\nPrompt: \"You're the fleet manager for a transportation company with 50 diesel trucks. Each truck gets"
+    },
+    {
+        "id": 24,
+        "text": "6 miles per gallon, and the fleet covers a total of 10,000 miles each day. You're looking to reduce fuel \nconsumption to save costs. Let\u2019s think step by step.\"\nChain of thought\nOne-Shot & Few-Shot Chain-of-Thought (CoT) Prompting\nOne-Shot CoT: Provides a single example with detailed reasoning steps.\nFew-Shot CoT: Includes multiple examples of reasoning-based answers.\nOne-Shot CoT Example\nPrompt:\nQ: If you have 3 apples and you buy \n2 more, how many apples do you \nhave?"
+    },
+    {
+        "id": 25,
+        "text": "2 more, how many apples do you \nhave?\nA: Let's think step by step.\nI start with 3 apples. Then I buy 2 \nmore apples. So, 3 + 2 = 5 apples.\nTherefore, the answer is 5.\nNew Question:\nQ: If you have 4 pencils and find 3 \nmore, how many pencils do you \nhave?\nA: Let's think step by step.\nI start with 4 pencils. Then I find 3 \nmore pencils. So, 4 + 3 = 7 pencils.\nFew-Shot CoT Example\nPrompt:\nQ1: If a book costs $5 and you buy 2 books, how much do you \nspend?\nA: Let's think step by step."
+    },
+    {
+        "id": 26,
+        "text": "spend?\nA: Let's think step by step.\nOne book costs $5. Buying 2 books means 5 \u00d7 2 = $10.\nSo, the answer is $10.\nQ2: If there are 6 students and each student has 3 notebooks, how \nmany notebooks are there in total?\nA: Let's think step by step.\nEach of the 6 students has 3 notebooks. So, 6 \u00d7 3 = 18 notebooks.\nSo, the answer is 18.\nNew Question:\nQ3: If there are 4 bags and each bag contains 5 apples, how many \napples are there in total?\nA: Let's think step by step."
+    },
+    {
+        "id": 27,
+        "text": "A: Let's think step by step.\nEach of the 4 bags has 5 apples. So, 4 \u00d7 5 = 20 apples.\nChain-of-Thought (CoT) with Self-Consistency\n\u2022 Introduced by Wang et al. in \u201cSelf-Consistency Improves Chain of Thought \nReasoning in Language Models\u201d (2022).\n\u2022 Enhances standard CoT by improving the accuracy and reliability of generated \nresponses.\n\u2022 Assumes the correct answer exists in the model and appears in majority of \nmultiple responses."
+    },
+    {
+        "id": 28,
+        "text": "multiple responses.\n\u2022 The same question is asked multiple times, generating diverse reasoning \npaths.\n\u2022 A majority vote is taken across responses to select the most consistent, likely \ncorrect answer.\n\u2022 This process synthesizes one final, reliable answerfrom multiple attempts.\n\u2022 Results in higher-quality reasoning and improved performanceon complex \ntasks.\nTREE OF THOUGHTS-PROMPTING\nTypes of Prompting\n1. Shot-Based Prompting-Zero-Shot, One-Shot, Few-Shot \n2. Reasoning-Based Prompting"
+    },
+    {
+        "id": 29,
+        "text": "2. Reasoning-Based Prompting\n\u2022 Chain-of-Thought (CoT) Prompting \n\u2022 One-Shot CoT\n\u2022 Few-Shot CoT\n\u2022 Self-Consistency CoT\n\u2022 Tree of Thoughts (ToT) \n3. Interaction and Feedback-Based Prompting\n\u2022 ReAct Prompting (Reasoning + Acting)\n\u2022 Positive and Negative Prompting\n\u2022 Iterative Prompting\n\u2022 Model-Guided Prompting\n4. Instruction and Role-Based Prompting\n\u2022 Instruction Prompting\n\u2022 Role Prompting\n5. Knowledge-Augmented Prompting\n\u2022 Generated Knowledge Prompting (GKP)\nInteraction and \nFeedback-Based"
+    },
+    {
+        "id": 30,
+        "text": "Interaction and \nFeedback-Based \nPrompting\n\u2022 A prompting approach where the LLM \ninteracts with intermediate outputs, \nexternal environments, or iterative \nprompts to refine its reasoning and \nactions.\n\u2022 Dynamic and adaptable.\n\u2022 ReAct Prompting \n(Reasoning + Acting)\n\u2022 Positive and Negative \nPrompting\n\u2022 Iterative Prompting\n\u2022 Model-Guided \nPrompting\nReAct\n\u2022 ReAct = \"Reasoning and Acting\" \u2013 separates \nreasoning from action-taking in AI models.\n\u2022 Feeds observations to the LLM, allowing it to"
+    },
+    {
+        "id": 31,
+        "text": "\u2022 Feeds observations to the LLM, allowing it to \nupdate context dynamically.\n\u2022 Model re-evaluates and responds step-by-step \nbased on updated insights.\n\u2022 Different from Chain-of-Thought (CoT) \u2013\nreasoning isn't static or embedded in one \nprompt.\n\u2022 Enables structured handling of complex \nqueries, improving output quality.\n\u2022 Helps LLMs produce more informed, accurate, \nand coherent responses.\nReAct\nPositive and negative prompting"
+    },
+    {
+        "id": 32,
+        "text": "ReAct\nPositive and negative prompting\nPositive and negative prompting are techniques used to guide the model's output in \nspecific directions. As the names suggest, positive prompting encourages the model to \ninclude certain types of content or responses, while negative prompting discourages it from \nincluding other specific types. This framing can be vital in controlling the direction and quality \nof the model\u2019s output.\nHere\u2019s what your positive prompt could look like:"
+    },
+    {
+        "id": 33,
+        "text": "Here\u2019s what your positive prompt could look like:\n\"You are a sustainability expert. Generate a list of five feasible strategies for a small business to \nreduce its carbon footprint.\"\nBuilding on the above scenario, you should ensure the model doesn't suggest too expensive or \ncomplicated strategies for a small business. So you extend your initial prompt as follows:\n\"You are a sustainability expert. Generate a list of five feasible strategies for a small business to"
+    },
+    {
+        "id": 34,
+        "text": "reduce its carbon footprint. Do not include suggestions that require an initial investment of more \nthan $10,000 or specialized technical expertise.\"\nAdding the negative prompting here filters out too expensive or technical strategies, tailoring the model's \noutput to your specific requirements.\nIterative prompting\nIterative prompting is a strategy that involves building on the model's previous outputs to refine, expand, or"
+    },
+    {
+        "id": 35,
+        "text": "dig deeper into the initial answer. This approach enables you to break down complex questions or topics into \nsmaller, more manageable parts, which can lead to more accurate and comprehensive results.\nThe key to this technique is paying close attention to the model's initial output. You can then create follow-up \nprompts to explore specific elements, inquire about subtopics, or ask for clarification. This approach is useful for"
+    },
+    {
+        "id": 36,
+        "text": "projects that require in-depth research, planning, or layered responses.\n\u2022 Example. Your initial prompt might be:\n\u2022 \"I am working on a project about fraud prevention in the travel industry. Please provide me with a \ngeneral outline covering key aspects that should be addressed.\u201d\n\u2022 Assume the model's output includes points like identity verification, secure payment gateways, and \ntransaction monitoring."
+    },
+    {
+        "id": 37,
+        "text": "transaction monitoring.\n\u2022 Follow-up prompt 1: \"Great, could you go into more detail about identity verification methods suitable \nfor the travel industry?\"\n\u2022 At this point, the model might elaborate on multifactor authentication, biometric scanning, and secure \ndocumentation checks.\n\u2022 Follow-up prompt 2: \"Now, could you explain how transaction monitoring can be effectively \nimplemented in the travel industry?\""
+    },
+    {
+        "id": 38,
+        "text": "implemented in the travel industry?\"\n\u2022 The model could then discuss real-time monitoring, anomaly detection algorithms, and the role of \nmachine learning in identifying suspicious activities.\n\u2022 This iterative approach allows you to go from a broad question to specific, actionable insights in a \nstructured manner, making it particularly useful for complex topics like fraud prevention in the travel \nindustry.\nIterative prompting\nModel guided prompting"
+    },
+    {
+        "id": 39,
+        "text": "Iterative prompting\nModel guided prompting\nAnother useful approach is model-guided prompting, which flips the script by instructing the model to ask you \nfor the details it needs to complete a given task. This approach minimizes guesswork and discourages the \nmodel from making things up.\nExample. Suppose you work in travel tech and you want an AI model to generate a FAQ section for a new travel"
+    },
+    {
+        "id": 40,
+        "text": "booking feature on your platform. Instead of just asking the model to \"create a FAQ for a new booking \nfeature,\" which could result in generic or off-target questions and answers, you could prompt the AI as \nfollows:\n\"I need you to generate a FAQ section for a new travel booking feature we're launching. Can you ask me for \nthe information you need to complete this?\"\nChatGPT might then ask you, \"What is the name of the new travel booking feature?\" and \"What is the primary"
+    },
+    {
+        "id": 41,
+        "text": "purpose or functionality of this new feature?\" among other things.\nTypes of Prompting\n1. Shot-Based Prompting-Zero-Shot, One-Shot, Few-Shot \n2. Reasoning-Based Prompting\n\u2022 Chain-of-Thought (CoT) Prompting \n\u2022 One-Shot CoT\n\u2022 Few-Shot CoT\n\u2022 Self-Consistency CoT\n\u2022 Tree of Thoughts (ToT) \n3. Interaction and Feedback-Based Prompting\n\u2022 ReAct Prompting (Reasoning + Acting)\n\u2022 Positive and Negative Prompting\n\u2022 Iterative Prompting\n\u2022 Model-Guided Prompting\n4. Instruction and Role-Based Prompting"
+    },
+    {
+        "id": 42,
+        "text": "4. Instruction and Role-Based Prompting\n\u2022 Instruction Prompting\n\u2022 Role Prompting\n5. Knowledge-Augmented Prompting\n\u2022 Generated Knowledge Prompting (GKP)\nInstruction Prompting\n\u2022 providing clear, explicit instructions to the model about how to perform a task. \n\u2022 Helps direct the model's focus towards a specific goal.\n\u2022 Examples of Instruction Prompting:\n\u2022 Summarization\n\u2022 Instruction: \"Summarize the following article in 3 sentences.\"\nModel Output: [Concise summary of the article.]"
+    },
+    {
+        "id": 43,
+        "text": "Model Output: [Concise summary of the article.]\n\u2022 Sentiment Analysis\n\u2022 Instruction: \"Classify the sentiment of the following text as Positive, Negative, \nor Neutral.\"\nModel Output: Positive.\n\u2022 Text Generation\n\u2022 Instruction: \"Write a 200-word essay on the impact of climate change on \nagriculture.\"\nModel Output: [Generated essay.]\nRole Prompting\n\u2022Role Prompting: Instructs the model to \nadopt a specific role or perspective, \nguiding the output to be more contextually \nappropriate and detailed."
+    },
+    {
+        "id": 44,
+        "text": "appropriate and detailed.\n\u2022Prompt: \"Your role is a machine learning expert who \ngives highly technical advice to senior engineers who work \nwith complicated datasets. Explain the pros and cons of \nusing PyTorch.\"\n\u2022Expectation: The model provides a more detailed and \ntechnical explanation suitable for senior engineers.\nThe role-playing technique employs a unique approach to crafting prompts: \ninstead of using examples or templates to guide the model's output, you"
+    },
+    {
+        "id": 45,
+        "text": "assign a specific \"role\" or \"persona\" to the AI model. This often includes \nexplicitly explaining the intended audience, the AI's role, and the goals of the \ninteraction. The roles and goals offer contextual information that helps the \nmodel understand the purpose of the prompt and the tone or level of detail it \nshould aim for in its response.\nExample. Consider the prompt: \"You are a prompt engineer, and you need \nto explain to a 6-year-old kid what your job is.\"\nTypes of Prompting"
+    },
+    {
+        "id": 46,
+        "text": "Types of Prompting\n1. Shot-Based Prompting-Zero-Shot, One-Shot, Few-Shot \n2. Reasoning-Based Prompting\n\u2022 Chain-of-Thought (CoT) Prompting \n\u2022 One-Shot CoT\n\u2022 Few-Shot CoT\n\u2022 Self-Consistency CoT\n\u2022 Tree of Thoughts (ToT) \n3. Interaction and Feedback-Based Prompting\n\u2022 ReAct Prompting (Reasoning + Acting)\n\u2022 Positive and Negative Prompting\n\u2022 Iterative Prompting\n\u2022 Model-Guided Prompting\n4. Instruction and Role-Based Prompting\n\u2022 Instruction Prompting\n\u2022 Role Prompting\n5. Knowledge-Augmented Prompting"
+    },
+    {
+        "id": 47,
+        "text": "\u2022 Role Prompting\n5. Knowledge-Augmented Prompting\n\u2022 Generated Knowledge Prompting (GKP)\nGenerated Knowledge Prompting\nmodel first generates \nrelevant background or \ncontextual knowledge and \nthen uses that generated \nknowledge to inform the \ntask-specific prompt.\nGetting an LLM\nLarge language models are deployed and accessed in a variety of ways, including:\n1.Self-hosting: Using local hardware to run inference. Ex. running Llama 2 on your \nMacbook Pro using llama.cpp."
+    },
+    {
+        "id": 48,
+        "text": "Macbook Pro using llama.cpp.\n1. Best for privacy/security or if you already have a GPU.\n2.Cloud hosting: Using a cloud provider to deploy an instance that hosts a specific \nmodel. Ex. running Llama 2 on cloud providers like AWS, Azure, GCP, and others.\n1. Best for customizing models and their runtime (ex. fine-tuning a model for your \nuse case).\n3.Hosted API: Call LLMs directly via an API. There are many companies that provide"
+    },
+    {
+        "id": 49,
+        "text": "Llama 2 inference APIs including AWS Bedrock, Replicate, Anyscale, Together and \nothers.\n1. Easiest option overall.\nLlama Models\nIn 2023, Meta introduced the Llama language models (Llama Chat, Code Llama, \nLlama Guard). These are general purpose, state-of-the-art LLMs.\nLlama 2 models come in 7 billion, 13 billion, and 70 billion parameter sizes. Smaller \nmodels are cheaper to deploy and run arger models are more capable.\nCode Llama is a code-focused LLM built on top of Llama 2"
+    },
+    {
+        "id": 50,
+        "text": "also available in various sizes and finetunes:\nPrompt and prompt engineering (In-context Learning\n)\nFine tuning \u2013why?\nZero- shot prompting\nZero-shot prompting\nZero-shot prompting is one of the most straightforward yet versatile techniques in prompt \nengineering. At its core, it involves providing the language model with a single instruction, \noften presented as a question or statement, without giving any additional examples or context."
+    },
+    {
+        "id": 51,
+        "text": "The model then generates a response based on its training data, essentially \"completing\" your \nprompt in a manner that aligns with its understanding of language and context.\nZero-shot prompting is exceptionally useful for generating fast, on-the-fly responses to a broad \nrange of queries.\nConsider you are looking for a sentiment analysis of a hotel review. You could use the following prompt."
+    },
+    {
+        "id": 52,
+        "text": "\u201cExtract the sentiment from the following review: \u2018The room was spacious, but the service was terrible.\u2019\u201d\nWithout prior training on sentiment analysis tasks, the model can still process this prompt and provide you with an \nanswer, such as \"The review has a mixed sentiment: positive towards room space but negative towards the service.\"\nOne \u2013shot prompting\nOne-shot prompting is a technique where a single example guides the AI model's output. This"
+    },
+    {
+        "id": 53,
+        "text": "example can be a question-answer pair, a simple instruction, or a specific template. The aim is \nto align the model's response more closely with the user's specific intentions or desired format.\nLet's consider a language model that has never been trained to generate recipes.\nWith one-shot prompting, you provide the model with a single example recipe:\nPrompt: \"Generate a recipe for chocolate chip cookies.\""
+    },
+    {
+        "id": 54,
+        "text": "Example Recipe: \"Ingredients: butter, sugar, eggs, flour, chocolate chips. Instructions: Preheat \noven to 350\u00b0F. Mix butter and sugar...\"\nEven though the model hasn't seen this specific example during training, it can use the structure of the \nprovided example to generate a new recipe:\nGenerated Recipe: \"Ingredients: margarine, brown sugar, egg substitute, all-purpose gluten-\nfree flour, dairy-free chocolate chips. Instructions: Preheat oven to 350\u00b0F. Cream margarine and \nbrown sugar...\""
+    },
+    {
+        "id": 55,
+        "text": "brown sugar...\"\nFew Shot example\nPrompt: Given a few sentences, classify their sentiment as Positive, Negative, or Neutral.\nFew-Shot Examples:\n1.\"I love this product!\" - Positive\n2.\"This is the worst experience ever.\" - Negative\n3.\"It's an average movie, nothing special.\" - Neutral\nThe model uses these examples to understand the sentiment analysis task, identifying key \nwords and phrases indicative of each sentiment category.\nresponse\nINPUT: I thought it was okay"
+    },
+    {
+        "id": 56,
+        "text": "response\nINPUT: I thought it was okay\nSure, I'd be happy to help! As a sentiment classifier, I can analyze the \nmessages you provide and give the percentage of positive, neutral, and \nnegative sentiment for each one. Here are my assessments for the messages \nyou've given so far:\n1. \"I liked it\" -7 0% positive, 30% neutral, 0% negative\n2. \"It could be better\" - 0% positive, 50% neutral, 50% negative\n3. \"It's fine\" - 25% positive, 50% neutral, 25% negative"
+    },
+    {
+        "id": 57,
+        "text": "4. \"I thought it was okay\" - 25% positive, 40% neutral, 35% negative\nPlease keep in mind that these assessments are based on my analysis of the \nlanguage used in each message, and may not reflect the actual sentiment or \nintention of the speaker. Additionally, it's important to note that sentiment \nanalysis can be subjective and may not always be accurate or reliable.\nPrompt Engineering\nPrompts are designed to instruct the model on the kind of output expected. Here are some common"
+    },
+    {
+        "id": 58,
+        "text": "types of prompts, with examples for various tasks:\nShape Prompting\nShape prompting involves structuring prompts in a way that influences the \"shape\" or structure of the \nmodel's response. This could mean specifying the format, style, or sequence of the output. This \ntechnique is particularly useful for tasks where the structure of the output is as important as the \ncontent itself, such as generating lists, bullet points, tables, or following a specific writing style.\nCharacteristics:"
+    },
+    {
+        "id": 59,
+        "text": "Characteristics:\n1.Output Structure: Prompts guide the model to produce outputs in a specific format or style.\n2.Formatting Instructions: They include explicit instructions about the layout of the response.\n3.Consistency: Ensures the model generates consistent and predictable outputs.\n\u2022Human Effort Prompting focuses on crafting detailed, \ncontext-rich, and specific prompts to guide the model \ntowards generating high-quality responses.\n\u2022Shape Prompting involves structuring the prompts to"
+    },
+    {
+        "id": 60,
+        "text": "influence the format and style of the model\u2019s outputs, \nensuring the generated text adheres to a desired \nstructure.\nPrompt Engineering\nHand effort-Discrete Prompting\nDiscrete Prompting\nDiscrete prompting involves providing distinct and separate prompts for each task or query. \nEach prompt is self-contained and does not rely on the context from previous interactions. \nThis approach is straightforward and often used when tasks are independent of each other or"
+    },
+    {
+        "id": 61,
+        "text": "when the model needs to handle a variety of unrelated queries.\nCharacteristics:\n1.Independence: Each prompt is independent and does not require context from previous \nprompts.\n2.Clarity: Prompts are clear and specific to the task at hand.\n3.Simplicity: This method is simple to implement as each query is treated separately.\nPrompt 1: \"What is the capital of France?\u201c\nPrompt 2: \"List three benefits of exercise.\u201c\nPrompt 3: \"Describe the process of photosynthesis.\"\nHand \u2013Effort Continuous Prompting"
+    },
+    {
+        "id": 62,
+        "text": "Hand \u2013Effort Continuous Prompting\nContinuous prompting involves maintaining context across multiple prompts, allowing the \nconversation or task to build progressively. This approach is useful for complex tasks that \nrequire context retention, such as carrying on a conversation, multi-step problem-solving, or \ndetailed storytelling.\nCharacteristics:\n1.Context Retention: The model retains context from previous interactions.\n2.Coherence: Ensures coherence and continuity in the generated responses."
+    },
+    {
+        "id": 63,
+        "text": "3.Complexity: More complex to manage as it involves maintaining state and context across \nprompts.Prompt 1: \"Tell me about renewable energy.\"\nResponse 1: \"Renewable energy comes from natural sources that are constantly replenished, such as sunlight, wind, \nand water.\"\nPrompt 2: \"What are the benefits of using renewable energy?\"\nResponse 2: \"The benefits include reducing greenhouse gas emissions, decreasing air pollution, and providing \nsustainable energy sources.\""
+    },
+    {
+        "id": 64,
+        "text": "sustainable energy sources.\"\nPrompt 3: \"Can you explain how solar panels work?\"\nResponse 3: \"Solar panels convert sunlight into electricity using photovoltaic cells. These cells absorb sunlight and \ngenerate an electric current through the photovoltaic effect.\"\nShape prompt : Cloze prompt , Prefix prompt\nCloze prompts are distinctively \nstructured to include blanks or \nmissing words within a text string, \nposing a fill-in-the-blank type \nchallenge to LLMs."
+    },
+    {
+        "id": 65,
+        "text": "challenge to LLMs.\nPrefix prompts, in contrast to cloze prompts, offer a unique \napproach particularly well-suited for generative tasks and \napplications involving standard auto-regressive LLMs. These \nprompts are designed to provide the beginning, or the prefix, of \na text string, which aligns well with the sequential processing \ncapabilities of these models.\nShape prompt : Cloze prompt , Prefix prompt\nPrompt engineering refers to the process of \ncreating a prompt function that guides a"
+    },
+    {
+        "id": 66,
+        "text": "creating a prompt function that guides a \nmodel to perform effectively in downstream \ntasks. \nThis process typically involves two steps.\nFirst, a template is applied, which is a text \nstring that contains two slots: \n\u2022 an input slot [X] for the input text x and \n\u2022 an answer slot [Z] for the intermediately \ngenerated answer text z\nthat will later be mapped into the final \noutput y.\nThen, the input slot [X] is filled with the \ninput text x."
+    },
+    {
+        "id": 67,
+        "text": "input text x.\nyou can explicitly mention the template in your code using \nplaceholders such as [], {}, or other markers to indicate where \ndynamic content should be inserted\nCloze Prefix Prompt Engineering\nSteps for Cloze Prefix Prompt Engineering\n1.Define the Task: Identify what you want the model to do (e.g., complete a sentence, answer a question, \ntranslate text).\n2.Create the Prefix: Write the initial part of the text that provides sufficient context for the model."
+    },
+    {
+        "id": 68,
+        "text": "3.Insert the Cloze: Leave a blank or specify a placeholder where the model should provide the missing \ninformation.\n4.Refine the Prompt: Ensure the prompt is clear and concise to guide the model effectively.Structure of Cloze Prefix Prompts\n1.Prefix: The beginning portion of the text, which sets up \nthe context or the start of the sentence.\n2.Cloze: The blank or missing part that the model needs \nto fill in.\nhealthcare\nPARAMETER EFFICIENT FINE TUNING (PEFT)\n\u2022 Additive\n\u2022 Adapters"
+    },
+    {
+        "id": 69,
+        "text": "\u2022 Additive\n\u2022 Adapters\n\u2022 Sparse Adapters\n\u2022 IA3\n\u2022 Soft prompt\n\u2022 Prompt Tuning\n\u2022 Prefix Tuning\n\u2022 P-Tuning\n\u2022 LlaMA Adapter\n\u2022 Selective\n\u2022 BitFit\n\u2022 Freeze and Reconfigure\n\u2022 Reparameterization ( LORA,QLORA)\n\u2022 Hybrid method that is a combination of Reparameterization and Selective\nCourtesy:, deeplearning.ai ,\nLarge Language Models (LLMs) are quite large by name. \nThese models usually have anywhere from 7 to 70 billion \nparameters. To load a 70 billion parameter model in full"
+    },
+    {
+        "id": 70,
+        "text": "precision would require 280 GB of GPU memory! To train \nthat model you would update billions of tokens over millions \nor billions of documents. The computation required is \nsubstantial for updating those parameters. The self-\nsupervised training of these models is expensive, costing \ncompanies up to $100 million.\nParameter-Efficient Fine-Tuning (PEFT) can significantly help in \nadapting large language models (LLMs) for various tasks while"
+    },
+    {
+        "id": 71,
+        "text": "overcoming limitations associated with traditional fine-tuning \nmethods\nTransformer - recap\nParameter efficient Fine-tuning (PEFT)\n97\nSource: peft (anoopsarkar.github.io)\n\u2022 Fine-tuning a model \nrequires to store as many \nparameters as the original \nmodel\n\u2022 High storage \ncomplexity\n\u2022 PEFT: An approach for \nfinetuning large language \nmodels in a parameter-\nefficient manner\n\u2022 PEFT \u2013 classifications\n\u2022 Does the method introduce new parameters to the model?"
+    },
+    {
+        "id": 72,
+        "text": "\u2022 Does it fine-tune a small subset of existing parameters?\n\u2022 Does the method aim to minimize memory footprint or storage \nefficiency?\n\u2022 Additive methods\n\u2022 Selective methods\n\u2022 Reparametrization-based methods\n\u2022 Hybrid methods\nLLM | Premjith B 99\nLialin, V ., Deshpande, V ., & Rumshisky, A. (2023). Scaling down to scale up: A guide to parameter-efficient fine-tuning. arXiv preprint arXiv:2303.15647.\nLLM | Premjith B 100"
+    },
+    {
+        "id": 73,
+        "text": "LLM | Premjith B 100\nLialin, V ., Deshpande, V ., & Rumshisky, A. (2023). Scaling down to scale up: A guide to parameter-efficient fine-tuning. arXiv preprint arXiv:2303.15647.\nPEFT \u2013 classifications\nAdditive Method\nAdditive methods are probably the easiest to grasp.\nThe goal of additive methods is to add an additional \nset of parameters or network layers to augment the \nmodel.\nWhen fine-tuning the data you update the weights \nonly of these newly added parameters."
+    },
+    {
+        "id": 74,
+        "text": "only of these newly added parameters.\nThis makes training computationally easier and also \nadapts to smaller datasets\nAdditive Methods\n\u2022 Key idea: Augment the existing pre-trained model with additional\nparameters or layers and train only the added parameters\n\u2022 Introduce additional parameters. However, achieve significant training time\nand memory efficiency improvements\n\u2022 Two approaches\n\u2022 Adapters\n\u2022 Soft prompts\nLLM | Premjith B 102\nAdapters"
+    },
+    {
+        "id": 75,
+        "text": "\u2022 Soft prompts\nLLM | Premjith B 102\nAdapters\nThis technique was introduced in Houlsby et al [4]. The goal of adapters is to add \nsmall fully connected networks after Transformer sub-layers and learn those \nparameters\nLLM | Premjith B 104\nSource: Houlsby, Neil, \nAndrei Giurgiu, Stanislaw \nJastrzebski, Bruna \nMorrone, Quentin De \nLaroussilhe, Andrea \nGesmundo, Mona \nAttariyan, and Sylvain \nGelly. \"Parameter-efficient \ntransfer learning for NLP.\" \nIn International \nConference on Machine"
+    },
+    {
+        "id": 76,
+        "text": "In International \nConference on Machine \nLearning, pp. 2790-2799. \nPMLR, 2019.\nAdapters\n\u2022 Attach a small fully connected layer at every layer of the transformer\n\u2022 Inserts small modules (adapters) between transformer layers\n\u2022 Adapter layer performs a down projection to project the input hidden\nlayer information to a lower-dimensional space, followed by a non-linear\nactivation function and an up projection\n\u2022 A residual connection to generate the final form"
+    },
+    {
+        "id": 77,
+        "text": "\u2022 Only adapter layers are trainable, while the parameters of the original\nLLMs are frozen\nLLM | Premjith B 105\n\uf028 \uf029down uph h f hW W\uf03d\uf02b\ndr\ndownW \uf0b4\uf0ce\nrd\nupW \uf0b4\uf0ce\nLet h be the input vector representing the hidden layer information from the original \nLLM (usually a high-dimensional vector).\nWe define a down-projection matrix (W_down) with dimensions appropriate for the \ndesired reduction in dimensionality. This matrix essentially \"compresses\" the \ninformation."
+    },
+    {
+        "id": 78,
+        "text": "information.\nThe down projection is calculated by multiplying the input vector h with the down-\nprojection matrix W_down:\nz = W_down * h\nHere, z represents the lower-dimensional representation of the input data.\nDown projection: This is a linear transformation that reduces the dimensionality of the input hidden layer information \n(h) from the original LLM. Imagine squeezing a high-dimensional vector into a lower-dimensional one, focusing on the \nmost relevant aspects for the specific task."
+    },
+    {
+        "id": 79,
+        "text": "most relevant aspects for the specific task.\nUp Projection:\nAfter processing in the lower-dimensional space, we want to project the \ndata back to its original size.\nWe define an up-projection matrix (W_up) with dimensions that allow us to \nexpand the data back to the original size of the input vector h.\nThe up projection is calculated by multiplying the lower-dimensional vector \nz with the up-projection matrix W_up:\nh' = W_up * z"
+    },
+    {
+        "id": 80,
+        "text": "h' = W_up * z\nHere, h' represents the data projected back to its original dimensionality.\nUp projection: After processing in the lower-dimensional space, the data (z) is projected back to its original size (h'). This \nmight seem redundant, but it allows the model to integrate the learned information from the lower-dimensional space \nback into the original context, enriching the representation.\n\u2022 Sparse Adapter\n\u2022 Pruned adapters\n\u2022 Reduces the model size of neural networks by pruning redundant"
+    },
+    {
+        "id": 81,
+        "text": "parameters and training the rest ones\n108\nSource:He, Shwai, Liang Ding, Daize Dong, Miao Zhang, and Dacheng Tao. \"Sparseadapter: An easy approach for improving the parameter-efficiency of adapters.\" arXiv preprint \narXiv:2210.04284 (2022).\nImplementing sparse adaptation involves incorporating sparsity techniques within the adapter layers of \na PEFT (Parameter-Efficient Fine-Tuning) framework for large language models (LLMs).\nChoosing a Sparsity Technique:"
+    },
+    {
+        "id": 82,
+        "text": "Choosing a Sparsity Technique:\nThere are several ways to introduce sparsity in adapter layers. Here are two common approaches:\n\u2022Pruning:\n\u2022 Start with a fully connected adapter layer (all weights have non-zero values).\n\u2022 During or after training, iteratively remove connections (set their weights to zero) considered \nunimportant based on specific criteria.\n\u2022 Common pruning algorithms include:\n\u2022 Magnitude-based pruning: Removes weights with values below a certain threshold."
+    },
+    {
+        "id": 83,
+        "text": "\u2022 Gradient-based pruning: Removes weights that contribute minimally to the gradient \nduring training.\n\u2022Magnitude Thresholding:\n\u2022 Initialize all weights in the adapter layer with random values.\n\u2022 After training, set weights with absolute values below a certain threshold to zero, effectively \nmaking them inactive.\n\u2022 AdapterHub\n\u2022 An easy-to-use and extensible adapter training and sharing framework \nfor transformer-based model\n110"
+    },
+    {
+        "id": 84,
+        "text": "for transformer-based model\n110\nAdapterHub is a framework designed to simplify the process of integrating, training, and using adapter \nmodules for parameter-efficient fine-tuning of transformer-based language models.\nAdditive PEFT ( IA3)- Infused Adapter by Inhibiting and \nAmplifying Inner Activations\nLet\u2019s consider the scaled dot-\nproduct attention found in a normal \ntransformer:\n\u2022 We just added column vectors l_k and l_v and take \nthe Hadamard product between the column vector"
+    },
+    {
+        "id": 85,
+        "text": "the Hadamard product between the column vector \nand the matrix (multiply the column vector against \nall columns of the matrix).\nWe also introduce one other learnable \ncolumn vector l_{ff} that is added to the feed \nforward layers as follow:\nIn this example, gamma is the activation \nfunction applied to the product between the \nweights and input\nwe are working with an additive method, we \nare seeking to add parameters to this network. \nWe want the dimensionality to be quite small."
+    },
+    {
+        "id": 86,
+        "text": "We want the dimensionality to be quite small. \n(IA)\u00b3 proposes the following new vectors to be \nadded to the attention mechanism:\nThe Hadamard product \u2299,. Each element (c_ij) in the resulting matrix C is calculated by \nmultiplying the corresponding elements (a_ij and b_ij) from matrices A and B at the same \nposition (i, j).\nSoft Prompting \nWith soft-prompts our goal is to add information to the base model that is more"
+    },
+    {
+        "id": 87,
+        "text": "specific to our current task. With prompt tuning we accomplish this by creating a set \nof parameters for the prompt tokens and injecting this at the beginning of the \nnetwork.\nSoft-prompting is a technique that tries to avoid this \ndataset creation. In hard prompting, we are creating data \nin a discrete representation (picking words.) In soft-\nprompting, we seek a continuous representation of the \ntext we will input to the model"
+    },
+    {
+        "id": 88,
+        "text": "text we will input to the model\nDepending on the technique, there are different methods for how the information is added to the \nnetwork. The core idea is that the base model does not optimize the text itself but rather the \ncontinuous representation (i.e. some type of learnable tensor) of the prompt text. This can \nbe some form of embedding or some transformation applied to that embedding.\nPrompt Tuning:\n\u2022Trainable Prompt Parameters:This approach focuses on creating a set of trainable"
+    },
+    {
+        "id": 89,
+        "text": "parameters specifically for the prompt tokens. These parameters are essentially learned \nrepresentations of the task that guide the LLM.\nExample sentiment Analysis\nImagine you want to fine-tune a pre-trained LLM for sentiment analysis. Here's how prompt tuning might work:\nDefine Prompt Template: You create a prompt template with special tokens representing the task and \nsentiment categories (positive, negative, neutral)."
+    },
+    {
+        "id": 90,
+        "text": "An example template could be:[SENTIMENT] sentiment: __label__ , review:  \"This movie was fantastic!\u201c\n[SENTIMENT] is a special token representing the task (sentiment analysis).__label__ is a placeholder that will be filled \nwith the predicted sentiment during inference.\u201c\nThis movie was fantastic!\" is the actual review text you want the model to analyze.\nTrainable Prompt Parameters: The model learns a set of parameters (embeddings) for each special token"
+    },
+    {
+        "id": 91,
+        "text": "in the prompt template. These parameters capture the task-specific information.\nFeeding the Input: During training and inference, you combine the prompt template with the actual \nreview text, replacing __label__ with a special \"unknown\" token.\nSoft Prompt\nP-Tuning\nP-Tuning is prompt-tuning but encoding \nthe prompt using an LSTM.\nHere prompt is a function that takes a context \nx and a target y and organizes itself into a \ntemplate T. The authors provide the example \nsequence"
+    },
+    {
+        "id": 92,
+        "text": "sequence\n\u201cThe capital of Britain is [MASK]\u201d.\nHere the prompt is \u201cThe capital of \u2026 is \u2026\u201d,\nthe context is \u201cBritain\u201d and the target is \n[MASK]\n. We can use this formulation to create two \nsequences of tokens, everything before the \ncontext and everything after the context before \nthe target.\nSoft Prompting\nLLaMA adapter\nLLaMA adapter introduce Adaptation Prompts, which are soft-prompts \nappended with the input to the transformer layer. These adaption prompts"
+    },
+    {
+        "id": 93,
+        "text": "are inserted in the L topmost of the N transformer layers.\nWith additive methods LLaMA adapter introduce a new set of parameters that have some random \ninitialization over the weights. Because of this random noise added to the LM, we can potentially \nexperience unstable fine-tuning which can cause a problem with large loss values at the early stages.\nTo solve this problem, the authors introduce a gating factor, initialized to 0, that is multiplied by the self"
+    },
+    {
+        "id": 94,
+        "text": "attention mechanism. The product of the gating factor and self-attention is referred to as zero-init\nattention. The gating value is adaptively tuned over the training steps to create a smoother update of \nthe network parameters.\nSoft Prompting\nLLaMA adapter\nSelective Methods\n\u2022 Selectively fine-tuning some parts of the network\n\u2022 Fine-tuning only a few top layers of a network\n\u2022 Based on the type of the layer\n\u2022 Internal structure of the network (tuning only model \nbiases)"
+    },
+    {
+        "id": 95,
+        "text": "biases)\n\u2022 Tuning only particular rows of the parameter matrix\n\u2022 Sparsity-based approaches\nLLM | Premjith B 121\nFreezing: This involves keeping certain layers of the pre-trained LLM's architecture unchanged during fine-\ntuning. These frozen layers typically represent the LLM's core capabilities for understanding language.\nReconfiguring: Specific parts of the LLM, particularly the later layers, are reconfigured to adapt to the \ntarget task\nSplit your linear layer into 2 matrices based on"
+    },
+    {
+        "id": 96,
+        "text": "Split your linear layer into 2 matrices based on \ninformation measure or gradient measure-\nFrozen matrix and Trainable matrix\nReparametrization-based methods- LoRA\nCourtesy:, deeplearning.ai ,\nReparametrization-based methods\n\u2022 Leverage low-rank representations to minimize the number of trainable parameters\n\u2022 Basic intuition: neural networks have low dimensional representations\n\u2022 Common approaches\n\u2022 Intrinsic SAID\n\u2022 LoRA\n\u2022 QLoRA\n125"
+    },
+    {
+        "id": 97,
+        "text": "\u2022 Intrinsic SAID\n\u2022 LoRA\n\u2022 QLoRA\n125\nReparameterization refers to transforming or reformulating the parameters of a model in a way that \nsimplifies certain aspects of the training or optimization process. \nThis can involve:\n\u2022 Simplifying the Optimization Landscape: Making the parameter space easier to navigate during \ntraining.\n\u2022 Improving Efficiency: Reducing the number of parameters or computations required."
+    },
+    {
+        "id": 98,
+        "text": "\u2022 Introducing Constraints: Incorporating prior knowledge or constraints more naturally into the model.\nLow-Rank Adaptation, or LoRA\nLow-Rank Adaptation, or LoRA,  freezes the pretrained model weights and \ninjects trainable rank decomposition matrices into each layer of the Transformer \narchitecture, greatly reducing the number of trainable parameters for \ndownstream tasks\n\u2022 Compared to GPT-3 175B fine-tuned with Adam, LoRA can reduce the number"
+    },
+    {
+        "id": 99,
+        "text": "of trainable parameters by 10,000 times and the GPU memory requirement by \n3 times.\n\u2022 LoRA performs on-par or better than finetuning in model quality on RoBERTa, \nDeBERTa, GPT-2, and GPT-3, despite having fewer trainable parameters, \n\u2022 a higher training throughput, and, unlike adapters, no additional inference \nlatency*\n*Inference latency refers to the time it takes for a model to process an input and produce an output. It's a crucial factor in real-time applications where quick"
+    },
+    {
+        "id": 100,
+        "text": "responses are necessary\nRank of a Matrix\nThe rank of the matrix gives the number of linearly independent column vectors of the \nmatrix and this number also means the dimension of the linear space these vectors span.\nFor example:\nThis matrix has 3 column vectors which span the 3 \ndimensional space, they are it's trivial base vectors, so they \nare linearly independent...\nRow-Echelon Form : A non-zero matrix is said to be in a row-echelon form if"
+    },
+    {
+        "id": 101,
+        "text": "all zero rows occur as bottom rows of the matrix and if the first non-zero \nelement in any lower row occurs to the right of the first non-zero entry in \nthe higher row.\n\u2022Rank of a matrix is equal to the number of non-zero rows if it is in Echelon \nForm.\nThere are many equivalent definitions of the rank of a matrix A.\nThe following two conditions are equivalent to each other \n1. The largest linearly independent subset of columns of A has size k. That is, all n"
+    },
+    {
+        "id": 102,
+        "text": "columns of A arise as linear combinations of only k of them. \n2. The largest linearly independent subset of rows of A has size k. That is, all m rows of \nA arise as linear combinations of only k of them. \nif A = YZ\u22a4. , then all of A\u2019s columns are linear combinations of the k columns of Y , and all \nof A\u2019s rows are linear combinations of the k rows of Z\u22a4\nThe \"rank\" of a matrix is the dimension of that space spanned by the vectors it \ncontains."
+    },
+    {
+        "id": 103,
+        "text": "contains.\nIf we put the two vectors [7, 3, 5] and [-2, -1, 5] into a matrix:\nthe rank of the matrix is the dimension of the space that you get by taking all combinations of \nthe vectors. We've already done that, and saw that the space spanned by [7, 3, 5] and [-2, -1, \n5] was a plane. In this case, the rank is 2 (because a plane is 2 dimensional).\n\u2022 LoRA: Low-Rank Adaptation of Large Language Models\n\u2022 Try to achieve a small number of task-specific parameters"
+    },
+    {
+        "id": 104,
+        "text": "\u2022 While the weights of a pre-trained model have full rank on the pre-\ntrained tasks, the LoRA authors point out that pre-trained large\nlanguage models have a low \u201cintrinsic dimension\u201d* when they are\nadapted to a new task\n134\nDecompose the weight \nchanges, \u0394W, into a \nlower-rank \nrepresentation*The intrinsic dimension refers to the minimum number of parameters \nrequired to effectively represent the information in a model.\n143\npeople.cs.umass.edu/~miyyer/cs685/slides/multilingual.pdf\n144"
+    },
+    {
+        "id": 105,
+        "text": "144\nPre-trained language models\nhave a low intrinsic\ndimension\nPossible to learn efficiently\nwith a low-dimensional\nparameterization\n145\nHu, Edward J., et al. \"Lora: Low-rank adaptation of large language \nmodels.\" arXiv preprint arXiv:2106.09685 (2021).\n\u2022 The major downside of fine-tuning is that the new model contains as \nmany parameters as in the original model\nLoRA possesses several key advantages."
+    },
+    {
+        "id": 106,
+        "text": "LoRA possesses several key advantages.\n\u2022 A pre-trained model can be shared and used to build many small LoRA modules for different tasks. We can \nfreeze the shared model and efficiently switch tasks by replacing the matrices A and B , reducing the storage \nrequirement and task-switching overhead significantly.\n\u2022 LoRA makes training more efficient and lowers the hardware barrier to entry by up to 3 times when using"
+    },
+    {
+        "id": 107,
+        "text": "adaptive optimizers since we do not need to calculate the gradients or maintain the optimizer states for \nmost parameters. Instead, we only optimize the injected, much smaller low-rank matrices.\n\u2022 Simpler linear design allows us to merge the trainable matrices with the frozen weights when deployed, \nintroducing no inference latency compared to a fully fine-tuned model, by construction.\n\u2022 LoRA is orthogonal to many prior methods and can be combined with many of them, such as prefix-tuning"
+    },
+    {
+        "id": 108,
+        "text": "Intrinsic Dimension\nLORA Aligns with Intrinsic Dimension\nThe intrinsic dimension represents the minimal effective degrees of \nfreedom. \nBy using a low-rank approximation, we are modeling the updates using \nonly the essential parameters (aligned with the intrinsic dimension).\nThis approach avoids the redundancy of full-rank matrices and focuses \non the core components that contribute most to the task-specific \nadaptation.\nQLoRA\nCourtesy:, deeplearning.ai , https://arxiv.org/pdf/2305.14314"
+    },
+    {
+        "id": 109,
+        "text": "what does Computation mean?\nComputation refers to the mathematical operations that are performed on the weights and activations of \nthe network during both the forward pass (when making predictions) and the backward pass (when updating \nthe weights during training).\nIn a typical neural network, these computations are performed using 32-bit floating- point numbers. This is \nbecause 32-bit floating-point numbers provide a good balance between precision (the ability to represent"
+    },
+    {
+        "id": 110,
+        "text": "numbers accurately) and range (the range of numbers that can be represented). Using 32-bit floating-point \nnumbers for all computations can be memory-intensive. \nThis is where quantization comes in.\nQuantization is a technique to reduce the precision of the numbers used in the model. In the \ncase of 4-bit quantization, the weights and activations of the network are compressed from 32-\nbit floating-point numbers to 4-bit integers. A 4-bit integer can range from -8 to 7."
+    },
+    {
+        "id": 111,
+        "text": "https://arxiv.org/pdf/2305.14314\nQLoRA extends LoRA to enhance efficiency \nby quantizing weight values of the original \nnetwork, from high-resolution data types, \nsuch as Float32, to lower-resolution data \ntypes like int4. This leads to reduced \nmemory demands and faster calculations.\nOur best model family, which we name Guanaco, \noutperforms  all previous openly released models \non the Vicuna benchmark, reaching 99.3%  of the \nperformance level of ChatGPT while only"
+    },
+    {
+        "id": 112,
+        "text": "performance level of ChatGPT while only \nrequiring 24 hours of finetuning\non a single GPU\nQLoRA\nQLoRA is the extended version of LoRA which works by quantizing the precision of the \nweight parameters in the pre trained LLM to 4-bit precision. Typically, parameters of trained \nmodels are stored in a 32-bit format, but QLoRA compresses them to a 4-bit format. This \nreduces the memory footprint of the LLM, making it possible to finetune it on a single GPU."
+    },
+    {
+        "id": 113,
+        "text": "This method significantly reduces the memory footprint, making it feasible to run LLM \nmodels on less powerful hardware, including consumer GPUs.\nAccording to QLoRA paper:\nQLORA introduces multiple innovations designed to reduce memory use without sacrificing \nperformance: \n(1) 4-bit NormalFloat, an information theoretically optimal quantization data type for normally \ndistributed data that yields better empirical results than 4-bit Integers and 4-bit Floats."
+    },
+    {
+        "id": 114,
+        "text": "(2) Double Quantization, a method that quantizes the quantization constants, saving an average \nof about 0.37 bits per parameter (approximately 3 GB for a 65B model). \n(3) Paged Optimizers, using NVIDIA unified memory to avoid the gradient checkpointing memory \nspikes that occur when processing a mini-batch with a long sequence length.\nQLORA Finetuning\nQLoRA Steps\n\u2022 Normalisation\n\u2022 Quantization \n\u2022 Dequantization\n\u2022 Double Quantization\n\u2022 First Level Quantization"
+    },
+    {
+        "id": 115,
+        "text": "\u2022 Double Quantization\n\u2022 First Level Quantization\n\u2022 Quantizing the quantization constants\n\u2022 Dequantize the constants\n\u2022 Dequantize the parameters using dequantized constants\n\u2022 Unified Memory Paging/Paged Optimisers\nNormalisation\n1.Normalization\nThe weights of the model are first normalized to \nhave zero mean and unit variance. This ensures \nthat the weights are distributed around zero and fall \nwithin a certain range.\nQLoRA Steps\nQuantization\n QLoRA Steps\nQLoRA StepsQuantization\nQuantization"
+    },
+    {
+        "id": 116,
+        "text": "QLoRA Steps\nQLoRA StepsQuantization\nQuantization\nQLoRA StepsQuantization\nQLoRA StepsQuantization\nDouble Quantization\n QLoRA Steps\nDouble Quantization\n QLoRA Steps\nDouble Quantization\nQLoRA Steps\nDouble Quantization\nQLoRA Steps\nDouble Quantization\nQLoRA Steps\nDouble Quantization QLoRA Steps\nPaged Optimisers/Unified Memory paging\nPaged optimizers are designed to efficiently \nmanage memory usage, especially when training \nlarge models with long sequence lengths. They"
+    },
+    {
+        "id": 117,
+        "text": "large models with long sequence lengths. They \nleverage memory paging techniques and NVIDIA's \nunified memory to avoid out-of-memory (OOM) \nerrors and optimize performance\nPaged Optimisers QLoRA Steps\nMemory Challenges in Training LLMs\nTraining large language models involves handling massive amounts of data \nand numerous parameters, which can lead to significant memory usage. The \nmain memory challenges include:\n\u2022Memory Spikes: These occur during gradient calculations, especially"
+    },
+    {
+        "id": 118,
+        "text": "with long sequences, causing temporary peaks in memory usage.\n\u2022Gradient Checkpointing: This technique saves intermediate activations \nat specific points to reduce memory usage but can still cause spikes.\nHow Paged Optimizers Work QLoRA Steps\n1. Unified Memory: Paged optimizers utilize NVIDIA's unified \nmemory, which allows a GPU to use both its own VRAM and \nthe system RAM. This approach provides a larger memory pool, \nreducing the risk of OOM errors when the GPU's VRAM is \ninsufficient."
+    },
+    {
+        "id": 119,
+        "text": "insufficient.\n2. Paging System: Similar to how operating systems manage \nmemory, paged optimizers use a paging system to dynamically \nallocate and deallocate memory. When processing a mini-\nbatch, only the required portions of the model and data are \nloaded into the GPU memory, while the rest remain in the \nsystem RAM.\n1. Avoiding Memory Spikes: By spreading the memory usage \nmore evenly between the GPU memory and system RAM, paged \noptimizers help in mitigating memory spikes. This approach"
+    },
+    {
+        "id": 120,
+        "text": "ensures that large models and long sequences can be processed \nwithout causing sudden peaks in memory usage that could lead \nto OOM errors.\n2. Efficiency in Training: The optimizer dynamically pages data in \nand out of GPU memory, ensuring that the GPU is not \noverwhelmed by large memory demands at any given time. This \ndynamic management makes it possible to handle larger models \nor longer sequences than what would typically fit into the GPU's \nVRAM alone.\nHow Paged Optimizers Help"
+    },
+    {
+        "id": 121,
+        "text": "VRAM alone.\nHow Paged Optimizers Help\nBenefits of Paged Optimizers\n\u2022 Increased Model Size: Allows for training larger \nmodels than what the GPU VRAM alone would \npermit.\n\u2022 Handling Long Sequences: Enables processing of \nlonger sequences without running into OOM errors.\n\u2022 Efficient Memory Use: Optimizes memory \nallocation dynamically, improving training efficiency.\nRetrieval-Augmented Generation \n(RAG) with Large Language Models\nCourtesy:, deeplearning.ai , https://arxiv.org/abs/2005.11401"
+    },
+    {
+        "id": 122,
+        "text": "RAG, short for Retrieval-Augmented Generation, helps \nlarge language models by giving them access to relevant \ninformation during text generation. This allows them to be \nmore accurate and informative, especially for tasks that \nrequire real-world knowledge.\nWhat is RAG?\nLarge language models (LLMs) have undoubtedly changed the \nway we interact with information. However, they come with \ntheir fair share of limitations as to what we can ask of them."
+    },
+    {
+        "id": 123,
+        "text": "Base LLMs (ex. Llama-2-70b, gpt-4, etc.) are only aware of the \ninformation that they've been trained on and will fall short \nwhen we require them to know information beyond that. \nRetrieval augmented generation (RAG) based LLM \napplications address this exact issue and extend the utility of \nLLMs to our specific data sources.\nRAG- steps\n1. Pass the query to the embedding \nmodel to semantically represent it \nas an embedded query vector.\n2. Pass the embedded query vector \nto our vector DB."
+    },
+    {
+        "id": 124,
+        "text": "to our vector DB.\n3. Retrieve the top-k relevant \ncontexts \u2013 measured by distance \nbetween the query embedding \nand all the embedded chunks in \nour knowledge base.\n4. Pass the query text and retrieved \ncontext text to our LLM.\n5. The LLM will generate a response \nusing the provided content.\nThe integration of RAG into LLMs\nRetriever: The retriever takes the input query, converts it into a vector using the query"
+    },
+    {
+        "id": 125,
+        "text": "encoder, and then finds the most similar document vectors in the corpus. The documents \nassociated with these vectors are then passed to the generator.\nGenerator : The generator in a RAG-LLM setup is a large transformer model, \nsuch as GPT3.5, GPT4, Llama2, Falcon, PaLM, and BERT. The generator takes the input \nquery and the retrieved documents, and generates a response.\nTraining RAG-LLM Models\nTraining a RAG-LLM model involves fine-tuning both the retriever and the generator on a"
+    },
+    {
+        "id": 126,
+        "text": "question-answering dataset. The retriever is trained to retrieve documents that are relevant to \nthe input query, while the generator is trained to generate accurate responses based on the \ninput query and the retrieved documents.\nThe integration of RAG into LLMs involves two main components: the retriever and the \ngenerator.\n\u2022 During training, pre-trained weights \ud835\udc4a0 \u2208 \u211d\ud835\udc51\u00d7\ud835\udc58 is fixed\nLLM | Premjith B 187\n00h W x Wx W x BAx\uf03d \uf02b\uf044 \uf03d \uf02b\n\uf028 \uf029, , min ,d r r kB A r d k\uf0b4\uf0b4\uf0ce\uf0ce"
+    },
+    {
+        "id": 127,
+        "text": "\uf028 \uf029, , min ,d r r kB A r d k\uf0b4\uf0b4\uf0ce\uf0ce\n\u2022 LoRA can be applied to any weights in a deep neural network\n\u2022 In the LoRA paper, the authors considered three weights related to self-attention\nmodel model,, dd\nk q vWWW \uf0b4\uf0ce\nVector DB creation\nBefore we can start building our RAG application, we need to first create our vector DB that will contain \nour processed data sources.\nLoad data: We\u2019re going to then load our docs contents into a Dataset so that we can"
+    },
+    {
+        "id": 128,
+        "text": "perform operations at scale on them (ex. embed, index, etc.).\nWhat is the optimal rank?\nLLM | Premjith B 191\nHu, Edward J., Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean Wang, Lu Wang, and Weizhu Chen. \"Lora: Low-rank adaptation of large language models.\"\narXiv preprint arXiv:2106.09685 (2021).\nLLM | Premjith B 192"
+    },
+    {
+        "id": 129,
+        "text": "LLM | Premjith B 192\nHu, Edward J., Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean Wang, Lu Wang, and Weizhu Chen. \"Lora: Low-rank adaptation of large language models.\"\narXiv preprint arXiv:2106.09685 (2021).\n\u2022 Subspace spanned by the top i singular vectors of Ur8 is contained in the \nsubspace spanned by the top j singular vectors of Ur64\n\u2022 \ud835\udee5\ud835\udc4a has a strong correlation with \ud835\udc4a\n\u2022 \ud835\udee5\ud835\udc4aamplifies some features that are already in  \ud835\udc4a but not emphasized in \n\ud835\udc4a"
+    },
+    {
+        "id": 130,
+        "text": "\ud835\udc4a\n\u2022 \ud835\udee5\ud835\udc4awith a larger rank tends to pick up more directions already \nemphasized in \ud835\udc4a\nLLM | Premjith B 195\n\u2022 Intrinsic SAID\n\u2022 Structure-Aware Intrinsic Dimension (SAID)\n\u2022 An objective function\u2019s intrinsic dimensionality describes the\nminimum dimension needed to solve the optimization problem it\ndefines to some precision level\n\u2022 Intrinsic dimensionality of a pre-trained LLM (or LM): The number\nof free parameters required to closely approximate the"
+    },
+    {
+        "id": 131,
+        "text": "optimization problem to be solved during fine-tuning of a model\nfor a downstream task.\n\u2022 Intrinsic dimension is the lowest dimensional subspace in which one can\noptimize the original function to within a certain level of approximation\nerror\n196\nLLM | Premjith B 197\n\uf05b \uf05d01, , ,D\nm\uf071 \uf071 \uf071 \uf071\uf03d\nSet of \ud835\udc37 parameters that parameterize some model \ud835\udc53 . , \ud835\udf03\nGenerally, re-parameterize in the lower-dimensional \ud835\udc51-dimensions\n\uf028 \uf0290\nD D d P\uf071 \uf071 \uf071\uf03d\uf02b\n: dDP \uf0ae\n\ud835\udf030\n\ud835\udc37 is the original model parameterization\nLinear projection"
+    },
+    {
+        "id": 132,
+        "text": "Linear projection\nSAID\nLLM | Premjith B 198\n\uf028 \uf0290,\nD D d m\ni i i i\nP\uf071 \uf071 \uf06c \uf071 \uf02d\uf03d\uf02b\n\ud835\udc5a is the number of layers\n\ud835\udc56 represents a layer\n\ud835\udf06 is a scaling parameter\n\u2022 Sample code\n\u2022 https://medium.com/@siddharth.vij10/prompt-engineering-llama-\n2-chat-cot-react-few-shot-self-critiq-fbf3bbf6688f\n\u2022 https://arxiv.org/pdf/2401.06866v1\n\u2022 https://arxiv.org/pdf/2402.07927\n\u2022 https://medium.com/decodingml/why-you-need-to-pay-attention-\nto-llm-prompt-templates-51808189a2e4"
+    },
+    {
+        "id": 133,
+        "text": "to-llm-prompt-templates-51808189a2e4\n\u2022 https://github.com/ksm26/Prompt-Engineering-with-Llama-2\n\u2022 https://medium.com/@dillipprasad60/qlora-explained-a-deep-\ndive-into-parametric-efficient-fine-tuning-in-large-language-\nmodels-llms-c1a4794b1766\n\u2022 https://medium.com/@marketing_novita.ai/step-by-step-tutorial-\non-integrating-retrieval-augmented-generation-rag-with-large-\nlanguage-7c509cddf4ac\n\u2022 https://www.youtube.com/watch?v=pov3pLFMOPY\n\u2022 https://medium.com/@hayagriva99999/lora-and-qlora-an-"
+    },
+    {
+        "id": 134,
+        "text": "efficient-approach-to-fine-tuning-large-models-under-the-hood-\n948468424cd6#:~:text=QLoRA%20extends%20LoRA%20to%20en\nhance,memory%20demands%20and%20faster%20calculations.\n\u2022 https://realpython.com/build-llm-rag-chatbot-with-langchain/\n\u2022 https://www.anyscale.com/blog/a-comprehensive-guide-for-\nbuilding-rag-based-llm-applications-part-1\n1.Split an image into patches\n2.Flatten the patches\n3.Produce lower-dimensional linear embeddings from the flattened\npatches\n4.Add positional embeddings"
+    },
+    {
+        "id": 135,
+        "text": "patches\n4.Add positional embeddings\n5.Feed the sequence as an input to a standard transformer encoder\n6.Pretrain the model with image labels (fully supervised on a huge\ndataset)\n7.Finetune on the downstream dataset for image classification\nThe total architecture is called Vision Transformer (ViT in short). \nLet\u2019s examine it step by step.\n\u2022 https://medium.com/@shravankoninti/decoding-strategies-of-all-decoder-\nonly-models-gpt-\n631faa4c449a#:~:text=In%20the%20previous%20blog%20we,steps%20and%2"
+    },
+    {
+        "id": 136,
+        "text": "0it%20generates%20outputs.\n\u2022 https://medium.com/@shravankoninti/generative-pretrained-transformer-\ngpt-4b94d017a3f9\n\u2022 https://medium.com/@shravankoninti/generative-pretrained-transformer-\ngpt-pre-training-fine-tuning-different-use-case-c93bb0553ffc\n\u2022 https://medium.com/@shravankoninti/generative-pretrained-transformer-\ngpt-4b94d017a3f9\n\u2022 https://medium.com/@YanAIx/step-by-step-into-gpt-70bc4a5d8714\n\u2022 https://jalammar.github.io/illustrated-gpt2/"
+    },
+    {
+        "id": 137,
+        "text": "\u2022 https://jalammar.github.io/illustrated-gpt2/\n\u2022 https://learn.deeplearning.ai/courses/finetuning-large-language-\nmodels/lesson/1/introduction"
+    }
+]
